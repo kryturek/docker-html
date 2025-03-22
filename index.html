@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello from Docker</title>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Hello, Chris! 👋</h1>
+  <p>This is served by Nginx inside a Docker container with ✨style✨.</p>
+  
+  <div id="api-data" style="margin-top: 20px;"></div>
+
+  <script>
+    fetch('/api')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('api-data').innerText = data.message;
+      })
+      .catch(err => {
+        document.getElementById('api-data').innerText = "API not reachable 😢";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

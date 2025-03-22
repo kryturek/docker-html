@@ -1,0 +1,35 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT}:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    expose:
+      - "${API_PORT}"
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=development
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE=postgres
+      - PGPORT=5432
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
